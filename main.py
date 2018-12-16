@@ -72,7 +72,7 @@ N = 1000
 
 # Number of coordinates of the occupancy measure to store
 # Final dataframe will have C*max_store columns
-max_store = 4
+max_store = 3
 
 # Saving directory
 path_output = os.getcwd() + "/10Nodes"
@@ -80,7 +80,6 @@ path_output = os.getcwd() + "/10Nodes"
 #######################
 ###### END INPUT ######
 #######################
-
 
 C = G.shape[0]
 
@@ -104,8 +103,12 @@ occupancy_eq = run_diff_eq(t_rates=t_rates, a_rates=a_rates, b_rates=b_rates,
 print('\n**** Run simulation ****\n')
 occupancy = run(t_rates=t_rates, a_rates=a_rates, b_rates=b_rates, N=N, T=T, G=G, max_store=max_store)
 
-# Create directory for saving the results
+# Create directory for saving the results and save input
 os.makedirs(path_output, exist_ok=True)
+text_file = open("Input.txt", "w")
+text_file.write("G =\n{}\nt_rates= {}\na_rates= {}\nb_rates= {}\nN={}\nnum_steps={}".format(G, t_rates, a_rates,
+                                                                                            b_rates, N, num_steps))
+text_file.close()
 
 # Plot and save the results
 plot_interference_graph(G, path_output=path_output)
